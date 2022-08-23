@@ -154,14 +154,54 @@ test('when placing a vertical ship of length 3 on the right, 8 fields are not us
 //
 test('when placing three ships, the array of ships contains them all', () => {
   const ship1 = gameboard.place('carrier', 5, 'C', 2);
-  const ship2 = gameboard.place('battlefield', 4, 'D', 4);
+  const ship2 = gameboard.place('battleship', 4, 'D', 4);
   const ship3 = gameboard.place('submarine', 5, 'F', 8);
   expect(gameboard.ships.length).toBe(3);
 });
 
 test("can't place ship in forbidden fields", () => {
   const ship1 = gameboard.place('carrier', 5, 'C', 2);
-  const ship2 = gameboard.place('battlefield', 4, 'C', 3);
-  const ship3 = gameboard.place('submarine', 5, 'E', 1);
+  const ship2 = gameboard.place('battleship', 4, 'C', 3);
+  const ship3 = gameboard.place('submarine', 3, 'E', 1);
   expect(gameboard.ships.length).toBe(1);
 });
+
+test("makes sure that if a horizontal carrier is on C2 and E2 is hit, the ship's third segment is hit", () => {
+  const ship = gameboard.place('carrier', 5, 'C', 2);
+  gameboard.receiveAttack('E', 2);
+  expect(ship.hits[2]).toBeTruthy();
+});
+
+test("makes sure that if a vertical carrier is on C2 and C4 is hit, the ship's third segment is hit", () => {
+  const ship = gameboard.place('carrier', 5, 'C', 2, 'vertical');
+  gameboard.receiveAttack('C', 4);
+  expect(ship.hits[2]).toBeTruthy();
+});
+
+test('removes sunk ship', () => {
+  const ship1 = gameboard.place('carrier', 5, 'C', 2);
+  const ship2 = gameboard.place('submarine', 3, 'A', 5, 'vertical');
+  const ship3 = gameboard.place('battleship', 4, 'G', 8);
+  gameboard.receiveAttack('A', 6);
+  gameboard.receiveAttack('A', 5);
+  gameboard.receiveAttack('A', 7);
+  expect(gameboard.ships.length).toBe(2);
+});
+
+// test('identifies the ship that was hit', () => {
+//   const ship1 = gameboard.place('carrier', 5, 'C', 2);
+//   const ship2 = gameboard.place('battleship', 4, 'D', 4);
+//   const ship3 = gameboard.place('submarine', 5, 'F', 8);
+//   expect(gameboard.receiveAttack('F', 4).type).toBe('battleship');
+// });
+
+//
+// test('confirm a ship was hit', () => {
+//   const ship = gameboard.place('carrier', 5, 'C', 2);
+//   expect(gameboard.receiveAttack('D', 2)).toBeTruthy();
+// });
+
+// test('confirm a ship was not hit', () => {
+//   const ship = gameboard.place('carrier', 5, 'C', 2);
+//   expect(gameboard.receiveAttack('G', 6)).toBeFalsy();
+// });
