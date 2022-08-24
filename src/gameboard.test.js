@@ -188,20 +188,3 @@ test('removes sunk ship', () => {
   expect(gameboard.ships.length).toBe(2);
 });
 
-// test('identifies the ship that was hit', () => {
-//   const ship1 = gameboard.place('carrier', 5, 'C', 2);
-//   const ship2 = gameboard.place('battleship', 4, 'D', 4);
-//   const ship3 = gameboard.place('submarine', 5, 'F', 8);
-//   expect(gameboard.receiveAttack('F', 4).type).toBe('battleship');
-// });
-
-//
-// test('confirm a ship was hit', () => {
-//   const ship = gameboard.place('carrier', 5, 'C', 2);
-//   expect(gameboard.receiveAttack('D', 2)).toBeTruthy();
-// });
-
-// test('confirm a ship was not hit', () => {
-//   const ship = gameboard.place('carrier', 5, 'C', 2);
-//   expect(gameboard.receiveAttack('G', 6)).toBeFalsy();
-// });

@@ -13,8 +13,56 @@ const Gameboard = () => {
     for (const x of xCoords) {
       fields.push({ x, y, free: true, usable: true, missed: false, hit: false });
     }
-  }  
-  
+  }
+
+  const place = (shipType, shipLength, xPos, yPos, orientation = 'horizontal') => {
+    if (shipAllowed(shipLength, xPos, yPos, orientation)) {
+      const ship = Ship(shipType, shipLength, xPos, yPos, orientation);
+
+      reserveFields(ship);
+      ships.push(ship);
+      return ship;
+    }
+  };
+
+  const receiveAttack = (xPos, yPos) => {
+    // find the field at xPos, yPos
+    const attackedField = fields.filter((field) => field.x === xPos && field.y === yPos)[0];
+
+    // check if there is a ship at this position
+    const hitShip = attackedField.free === false;
+
+    if (hitShip) {
+      // mark field as hit
+      attackedField.hit = true;
+
+      // if a ship was hit, identify it
+      const hitUnit = ships.filter((ship) => ship.fields.includes(attackedField))[0];
+
+      // check which segment of the ship was hit
+      const hitSegment = hitUnit.fields.filter((field) => field === attackedField)[0];
+      // find index of hit segment
+      const hitSegmentIndex = hitUnit.fields.indexOf(hitSegment);
+
+      // hit the ship
+      hitUnit.hit(hitSegmentIndex);
+
+      // check if the ship should sink
+      if (hitUnit.isSunk()) {
+        const hitUnitIndex = ships.indexOf(hitUnit);
+        ships.splice(hitUnitIndex, 1);
+      }
+    } else {
+      attackedField.missed = true;
+    }
+
+    // check if all ships are sunk
+    if (allShipsSunk(ships)) {
+      //
+    }
+  };
+
+  // HELPER METHODS
   const reserveFields = (ship) => {
     const startField = fields.filter((field) => field.x === ship.x && field.y === ship.y)[0];
 
@@ -72,8 +120,8 @@ const Gameboard = () => {
       }
     }
   };
-  
-   const shipAllowed = (shipLength, xPos, yPos, orientation) => {
+
+  const shipAllowed = (shipLength, xPos, yPos, orientation) => {
     const startField = fields.filter((field) => field.x === xPos && field.y === yPos)[0];
     const startFieldIndex = fields.indexOf(startField);
 
@@ -97,59 +145,13 @@ const Gameboard = () => {
     return true;
   };
 
-  const place = (shipType, shipLength, xPos, yPos, orientation = 'horizontal') => {
-    if (shipAllowed(shipLength, xPos, yPos, orientation)) {
-      const ship = Ship(shipType, shipLength, xPos, yPos, orientation);
-
-      reserveFields(ship);
-      ships.push(ship);
-      return ship;
-    }
-  };
-
   const allShipsSunk = (ships) => {
     if (ships.length === 0) {
       return true;
     }
     return false;
-  }
-
-  const receiveAttack = (xPos, yPos) => {
-    // find the field at xPos, yPos
-    const attackedField = fields.filter((field) => field.x === xPos && field.y === yPos)[0];
-
-    // check if there is a ship at this position
-    const hitShip = attackedField.free === false;
-    
-    if (hitShip) {
-      // mark field as hit
-      attackedField.hit = true;
-
-      // if a ship was hit, identify it
-      const hitUnit = ships.filter((ship) => ship.fields.includes(attackedField))[0];
-
-      // check which segment of the ship was hit
-      const hitSegment = hitUnit.fields.filter((field) => field === attackedField)[0];
-      // find index of hit segment
-      const hitSegmentIndex = hitUnit.fields.indexOf(hitSegment);
-
-      // hit the ship
-      hitUnit.hit(hitSegmentIndex);
-
-      // check if the ship should sink
-      if (hitUnit.isSunk()) {
-        const hitUnitIndex = ships.indexOf(hitUnit);
-        ships.splice(hitUnitIndex, 1);
-      }
-    } else {
-      attackedField.missed = true;
-    }
-
-    // check if all ships are sunk
-    if (allShipsSunk(ships)) {
-      //
-    }
   };
+
 
   return { fields, ships, place, receiveAttack };
 };
