@@ -15,13 +15,10 @@ const Gameboard = () => {
     }
   }
 
-  const place = (shipType, shipLength, xPos, yPos, orientation = 'horizontal') => {
-    if (shipAllowed(shipLength, xPos, yPos, orientation)) {
-      const ship = Ship(shipType, shipLength, xPos, yPos, orientation);
-
+  const place = (ship) => {
+    if (shipAllowed(ship)) {
       reserveFields(ship);
       ships.push(ship);
-      return ship;
     }
   };
 
@@ -121,23 +118,21 @@ const Gameboard = () => {
     }
   };
 
-  const shipAllowed = (shipLength, xPos, yPos, orientation) => {
-    const startField = fields.filter((field) => field.x === xPos && field.y === yPos)[0];
+  const shipAllowed = (ship) => {
+    const startField = fields.filter((field) => field.x === ship.x && field.y === ship.y)[0];
     const startFieldIndex = fields.indexOf(startField);
 
-    if (orientation === 'horizontal') {
-      for (let i = 0; i < shipLength; i++) {
-        if (
-          fields[startFieldIndex + i].usable === false
-        ) {
+    if (ship.orientation === 'horizontal') {
+      for (let i = 0; i < ship.length; i++) {
+        if (fields[startFieldIndex + i].usable === false
+        || (startFieldIndex % 10) > (10 - ship.length)) {
           return false;
         }
       }
     } else {
-      for (let i = 0; i < shipLength; i++) {
-        if (
-          fields[startFieldIndex + 10 * i].usable === false
-        ) {
+      for (let i = 0; i < ship.length; i++) {
+        if (fields[startFieldIndex + 10 * i].usable === false
+        || (ship.y) > (11 - ship.length)) {
           return false;
         }
       }

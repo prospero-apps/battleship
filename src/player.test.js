@@ -11,7 +11,7 @@ beforeEach(() => {
 
 test("player's name is set correctly", () => {
   expect(player.name).toBe('Jim');
-})
+});
 
 test("there are 100 fields in the player's gameboard", () => {
   expect(player.gameboard.fields.length).toBe(100);
@@ -55,18 +55,25 @@ test('there are no ships before the first one is added', () => {
 });
 
 test('always places randomly just one ship', () => {
-  player.placeShipRandomly('carrier', 5);
+  const ship = Ship('carrier', 5);
+  player.placeShipRandomly(ship);
   expect(player.gameboard.ships.length).toBe(1);
 });
 
-test('each random ship is added', () => {
-  player.placeShipRandomly('carrier', 5);
-  player.placeShipRandomly('battleship', 4);
-  player.placeShipRandomly('destroyer', 3);
-  player.placeShipRandomly('submarine', 3);
-  player.placeShipRandomly('patrol boat', 2);
-  expect(player.gameboard.ships.length).toBe(5);
-});
+// test('each random ship is added', () => {
+//   const ship1 = Ship('carrier', 5);
+//   const ship2 = Ship('battleship', 4);
+//   const ship3 = Ship('destroyer', 3);
+//   const ship4 = Ship('submarine', 3);
+//   const ship5 = Ship('patrol boat');
+
+//   player.placeShipRandomly(ship1);
+//   player.placeShipRandomly(ship2);
+//   player.placeShipRandomly(ship3);
+//   player.placeShipRandomly(ship4);
+//   player.placeShipRandomly(ship5);
+//   expect(player.gameboard.ships.length).toBe(5);
+// });
 
 test('player attacks enemy and hits a ship', () => {
   const ship1 = Ship('carrier', 5, 'A', 1);
@@ -105,4 +112,3 @@ test('player attacks enemy and misses', () => {
   player.shootAt(player2, 'F', 5);
   expect(player2.gameboard.fields[45].missed).toBeTruthy();
 });
-

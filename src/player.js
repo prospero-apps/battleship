@@ -2,19 +2,30 @@ import Gameboard from "./gameboard";
 import Ship from "./ship";
 
 const Player = (name) => {
-  const gameboard = Gameboard();
+  ///
+  const fleet = [
+    Ship('carrier', 5),
+    Ship('battleship', 4),
+    Ship('destroyer', 3),
+    Ship('submarine', 3),
+    Ship('patrol boat', 2),
+  ];
 
+  let currentShip = fleet[0];
+  let shipsPlaced = false;
+
+  const gameboard = Gameboard();
+  
   const placeShip = (ship) => {
-    gameboard.place(ship.type, ship.length, ship.x, ship.y, ship.orientation);
+    gameboard.place(ship);
   };
 
-  const placeShipRandomly = (shipType, shipLength) => {
-    let ship;
-    let shipCount = gameboard.ships.length;
+  const placeShipRandomly = (fleetShip) => {
+    const shipCount = gameboard.ships.length;
 
     do {
-      ship = createRandomShip(shipType, shipLength);
-      placeShip(ship);
+      randomizeShip(fleetShip);
+      placeShip(fleetShip);
     } while (shipCount === gameboard.ships.length);
   };
 
@@ -45,7 +56,7 @@ const Player = (name) => {
   };
 
   // HELPER METHODS
-  const createRandomShip = (shipType, shipLength) => {
+  const randomizeShip = (ship) => {
     // select random orientation
     const orientationNumber = Math.floor(Math.random() * 10) + 1;
     const orientation = orientationNumber < 6 ? 'horizontal' : 'vertical';
@@ -53,24 +64,34 @@ const Player = (name) => {
     const xCoords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
     // select random coords
-    let x = xCoords[Math.floor(Math.random() * (xCoords.length - shipLength))];
-    let y = Math.floor(Math.random() * (10 - shipLength)) + 1;
+    let x = xCoords[Math.floor(Math.random() * (xCoords.length - ship.length))];
+    let y = Math.floor(Math.random() * (10 - ship.length)) + 1;
 
-    if (orientation === 'horizontal' && xCoords.indexOf(x) + shipLength > 10) {
-      x = xCoords[Math.floor(Math.random() * (xCoords.length - shipLength))];
+    if (orientation === 'horizontal' && xCoords.indexOf(x) + ship.length > 10) {
+      x = xCoords[Math.floor(Math.random() * (xCoords.length - ship.length))];
     }
 
-    if (orientation === 'vertical' && y + shipLength > 11) {
-      y = Math.floor(Math.random() * (10 - shipLength)) + 1;
+    if (orientation === 'vertical' && y + ship.length > 11) {
+      y = Math.floor(Math.random() * (10 - ship.length)) + 1;
     }
 
-    // create ship
-    const ship = Ship(shipType, shipLength, x, y, orientation);
-
-    return ship;
+    // set ship
+    ship.x = x;
+    ship.y = y;
+    ship.orientation = orientation;
   };
 
-  return { name, gameboard, placeShip, placeShipRandomly, shootAt, shootRandomlyAt };
+  return {
+    name,
+    gameboard,
+    fleet,
+    currentShip,
+    placeShip,
+    placeShipRandomly,
+    shootAt,
+    shootRandomlyAt,
+    shipsPlaced,
+  };
 };
 
 export default Player;

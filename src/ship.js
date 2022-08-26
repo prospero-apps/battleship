@@ -12,7 +12,17 @@ const Ship = (type, length, x = 'A', y = 1, orientation = 'horizontal') => {
 
   const isSunk = () => hits.every((pos) => pos === true);
 
-  return { type, length, orientation, x, y, fields, hits, hit, isSunk };
+  return {
+    type,
+    length,
+    orientation,
+    x,
+    y,
+    fields,
+    hits,
+    hit,
+    isSunk,
+  };
 };
 
 export default Ship;
