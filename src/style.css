@@ -53,16 +53,19 @@ body {
 }
 
 /* GAMEBOARD */
-#gb-screen {
+#game-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.player-info {
-  font-size: 1.5rem;
-  /* margin-bottom: 1rem; */
-  background-color: white;
+#placement-container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, .7);
+  border-radius: 20px;
+  align-items: center;
+  font-size: 1.3rem;
   padding: 5px;
 }
 
@@ -93,11 +96,11 @@ body {
 
 #ship-label {
   color: red;
-  background-color: white;
   border-radius: 10px;
   padding: 5px;
-  width: 10rem;
+  width: 100%;
   text-align: center;
+  font-size: larger;
 }
 
 .frame {
@@ -120,11 +123,26 @@ body {
   color: rgb(185, 183, 183);
 }
 
-.square.usable:hover {
+/* .square:hover {
   background-color: rgb(218, 214, 214);
-}
+} */
+
+/* .square.usable:hover {
+  background-color: blue;
+} */
 
 .ship {
   background-color: red;
+}
+
+.possible-ship {
+  background-color: pink;
+}
+
+.square.forbidden {
+  background: url('./icons/forbidden.png') white;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 

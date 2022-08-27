@@ -60,21 +60,6 @@ test('always places randomly just one ship', () => {
   expect(player.gameboard.ships.length).toBe(1);
 });
 
-// test('each random ship is added', () => {
-//   const ship1 = Ship('carrier', 5);
-//   const ship2 = Ship('battleship', 4);
-//   const ship3 = Ship('destroyer', 3);
-//   const ship4 = Ship('submarine', 3);
-//   const ship5 = Ship('patrol boat');
-
-//   player.placeShipRandomly(ship1);
-//   player.placeShipRandomly(ship2);
-//   player.placeShipRandomly(ship3);
-//   player.placeShipRandomly(ship4);
-//   player.placeShipRandomly(ship5);
-//   expect(player.gameboard.ships.length).toBe(5);
-// });
-
 test('player attacks enemy and hits a ship', () => {
   const ship1 = Ship('carrier', 5, 'A', 1);
   const ship2 = Ship('battleship', 4, 'C', 3);

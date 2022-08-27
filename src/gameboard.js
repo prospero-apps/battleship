@@ -1,5 +1,3 @@
-import Ship from "./ship";
-
 const Gameboard = () => {
   const xCoords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   const yCoords = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -14,7 +12,7 @@ const Gameboard = () => {
       fields.push({ x, y, free: true, usable: true, missed: false, hit: false });
     }
   }
-
+  
   const place = (ship) => {
     if (shipAllowed(ship)) {
       reserveFields(ship);
@@ -148,7 +146,12 @@ const Gameboard = () => {
   };
 
 
-  return { fields, ships, place, receiveAttack };
+  return {
+    fields,
+    ships,
+    place,
+    receiveAttack,
+  };
 };
 
 export default Gameboard;
