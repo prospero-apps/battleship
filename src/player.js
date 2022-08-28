@@ -29,8 +29,8 @@ const Player = (name) => {
     } while (shipCount === gameboard.ships.length);
   };
 
-  const shootAt = (enemy, x, y) => {
-    enemy.gameboard.receiveAttack(x, y);
+  const shootAt = (enemy, field) => {
+    enemy.gameboard.receiveAttack(field.x, field.y);
   };
 
   const shootRandomlyAt = (enemy) => {
@@ -47,10 +47,11 @@ const Player = (name) => {
     while (target.missed || target.hit) {
       x = xCoords[Math.floor(Math.random() * (xCoords.length))];
       y = Math.floor(Math.random() * 10) + 1;
-      target = fields.filter((field) => field.x === x && field.y === y)[0];
+      target = enemy.gameboard.fields.filter((field) => field.x === x && field.y === y)[0];
     }
 
-    shootAt(enemy, x, y);
+    // shootAt(enemy, x, y);
+    shootAt(enemy, target);
 
     return target;
   };

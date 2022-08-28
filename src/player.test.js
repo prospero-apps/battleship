@@ -75,7 +75,7 @@ test('player attacks enemy and hits a ship', () => {
   player2.placeShip(ship4);
   player2.placeShip(ship5);
 
-  player.shootAt(player2, 'E', 3);
+  player.shootAt(player2, { x: 'E', y: 3 });
   expect(player2.gameboard.fields[24].hit).toBeTruthy();
 });
 
@@ -94,6 +94,6 @@ test('player attacks enemy and misses', () => {
   player2.placeShip(ship4);
   player2.placeShip(ship5);
 
-  player.shootAt(player2, 'F', 5);
+  player.shootAt(player2, { x: 'F', y: 5 });
   expect(player2.gameboard.fields[45].missed).toBeTruthy();
 });

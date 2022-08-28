@@ -50,11 +50,6 @@ const Gameboard = () => {
     } else {
       attackedField.missed = true;
     }
-
-    // check if all ships are sunk
-    if (allShipsSunk(ships)) {
-      //
-    }
   };
 
   // HELPER METHODS
@@ -137,20 +132,15 @@ const Gameboard = () => {
     }
     return true;
   };
-
-  const allShipsSunk = (ships) => {
-    if (ships.length === 0) {
-      return true;
-    }
-    return false;
-  };
-
-
+  
+  const allShipsSunk = () => ships.every((ship) => ship.isSunk());
+    
   return {
     fields,
     ships,
     place,
     receiveAttack,
+    allShipsSunk,
   };
 };
 

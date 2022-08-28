@@ -27,8 +27,9 @@ body {
   margin: .5rem;
 }
 
-/* INTRO */
-#name-label {
+/* INTRO + PLAY */
+#name-label,
+#play-again-label {
   display: block;
   margin-bottom: 1rem;
 }
@@ -39,7 +40,8 @@ body {
   border: 2px solid black;
 }
 
-#start-button {
+#start-button,
+#play-again-button {
   font-size: 2rem;
   padding: 1rem;
   border: 2px solid black;
@@ -48,14 +50,21 @@ body {
   background-color: rgb(241, 120, 120);
 }
 
-#start-button:hover {
+#start-button:hover,
+#play-again-button:hover {
   background-color: rgb(245, 178, 178);
 }
 
-/* GAMEBOARD */
-#game-screen {
+/* GAME SCREEN */
+#game-screen,
+#gameover-panel {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+#gameboard-panel {
+  display: flex;
   align-items: center;
 }
 
@@ -123,20 +132,8 @@ body {
   color: rgb(185, 183, 183);
 }
 
-/* .square:hover {
-  background-color: rgb(218, 214, 214);
-} */
-
-/* .square.usable:hover {
-  background-color: blue;
-} */
-
 .ship {
   background-color: red;
-}
-
-.possible-ship {
-  background-color: pink;
 }
 
 .square.forbidden {
@@ -146,3 +143,23 @@ body {
   background-position: center;
 }
 
+/* BATTLE */
+.missed {
+  background: url('./icons/miss.png') white;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hit {
+  background: url('./icons/hit.png') white;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media only screen and (max-width: 1000px) {  
+  #gameboard-panel {
+    flex-direction: column;
+  }
+}
